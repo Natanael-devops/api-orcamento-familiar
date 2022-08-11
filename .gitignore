@@ -1,0 +1,9 @@
+.idea
+.vscode
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.out
+postgres-data
