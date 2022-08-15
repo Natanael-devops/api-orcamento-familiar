@@ -19,6 +19,7 @@ import (
 var ID int
 
 func SetupDasRotasDeTeste() *gin.Engine {
+	gin.SetMode(gin.ReleaseMode)
 	rotas := gin.Default()
 	return rotas
 }
@@ -27,9 +28,10 @@ func SetupDasRotasDeTeste() *gin.Engine {
 func CriaDespesaMock() {
 	descricao := "DespesaMock"
 
-	valor := float32(400.00)
-	data := "julho"
-	despesa := models.Despesa{Descricao: descricao, Valor: valor, Data: data}
+	valor := float32(300.00)
+	data := "05/1997"
+	categoria := ""
+	despesa := models.Despesa{Descricao: descricao, Valor: valor, Data: data, Categoria: categoria}
 	database.DB.Create(&despesa)
 	ID = int(despesa.ID)
 }
@@ -42,7 +44,7 @@ func DeletaDespesaMock() {
 func CriaReceitaMock() {
 	descricao := "ReceitaMock"
 	valor := float32(400.00)
-	data := "julho"
+	data := "05/1997"
 	receita := models.Receita{Descricao: descricao, Valor: valor, Data: data}
 	database.DB.Create(&receita)
 	ID = int(receita.ID)
@@ -178,4 +180,77 @@ func TestEditaDespesa(t *testing.T) {
 	assert.Equal(t, "OutraDespesaMock", despesaMockAtualizada.Descricao)
 	assert.Equal(t, "janeiro", despesaMockAtualizada.Data)
 	assert.Equal(t, float32(700.00), despesaMockAtualizada.Valor)
+}
+
+func TestBuscaReceitasPorMes(t *testing.T) {
+	database.ConectaComBancoDeDados()
+	CriaReceitaMock()
+	r := SetupDasRotasDeTeste()
+	defer DeletaReceitaMock()
+
+	r.GET("/receitas/:id/:mes", controllers.BuscaReceitaPorMes)
+	path := "/receitas/2022/08"
+	req, _ := http.NewRequest("GET", path, nil)
+	resposta := httptest.NewRecorder()
+	r.ServeHTTP(resposta, req)
+	assert.Equal(t, http.StatusOK, resposta.Code)
+}
+
+func TestBuscaDespesasPorMes(t *testing.T) {
+	database.ConectaComBancoDeDados()
+	CriaDespesaMock()
+	r := SetupDasRotasDeTeste()
+	defer DeletaDespesaMock()
+
+	r.GET("/despesas/:id/:mes", controllers.BuscaReceitaPorMes)
+	path := "/despesas/2022/08"
+	req, _ := http.NewRequest("GET", path, nil)
+	resposta := httptest.NewRecorder()
+	r.ServeHTTP(resposta, req)
+	assert.Equal(t, http.StatusOK, resposta.Code)
+}
+
+func TestBuscaReceitasPorDescricao(t *testing.T) {
+	database.ConectaComBancoDeDados()
+	CriaReceitaMock()
+	r := SetupDasRotasDeTeste()
+	defer DeletaReceitaMock()
+	path := "/receitas?descricao="
+	path += "ReceitaMock"
+	r.GET("/receitas", controllers.BuscaReceitaPorDescricao)
+	req, _ := http.NewRequest("GET", path, nil)
+	resposta := httptest.NewRecorder()
+	r.ServeHTTP(resposta, req)
+	assert.Equal(t, http.StatusOK, resposta.Code)
+
+}
+
+func TestBuscaDespesasPorDescricao(t *testing.T) {
+	database.ConectaComBancoDeDados()
+	CriaDespesaMock()
+	r := SetupDasRotasDeTeste()
+	defer DeletaDespesaMock()
+	path := "/despesas?descricao="
+	path += "DespesaMock"
+	r.GET("/despesas", controllers.BuscaDespesaPorDescricao)
+	req, _ := http.NewRequest("GET", path, nil)
+	resposta := httptest.NewRecorder()
+	r.ServeHTTP(resposta, req)
+	assert.Equal(t, http.StatusOK, resposta.Code)
+}
+
+func TestResumoMensal(t *testing.T) {
+	database.ConectaComBancoDeDados()
+	CriaReceitaMock()
+	CriaDespesaMock()
+	defer DeletaReceitaMock()
+	defer DeletaDespesaMock()
+	r := SetupDasRotasDeTeste()
+	path := "/resumo/1997/05"
+	r.GET("/resumo/:id/:mes", controllers.DevolveResumoMensal)
+	req, _ := http.NewRequest("GET", path, nil)
+	resposta := httptest.NewRecorder()
+	r.ServeHTTP(resposta, req)
+	assert.Equal(t, http.StatusOK, resposta.Code)
+
 }

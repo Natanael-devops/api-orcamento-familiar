@@ -78,3 +78,32 @@ func EditaReceita(c *gin.Context) {
 	database.DB.Model(&receita).UpdateColumns(receita)
 	c.JSON(http.StatusOK, receita)
 }
+
+func BuscaReceitaPorDescricao(c *gin.Context) {
+	var receita []models.Receita
+	descricao := c.Query("descricao")
+	database.DB.Where(&models.Receita{Descricao: descricao}).Find(&receita)
+
+	if len(receita) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"Not found": "Receita não encontrada"})
+		return
+	}
+
+	c.JSON(http.StatusOK, receita)
+}
+
+func BuscaReceitaPorMes(c *gin.Context) {
+	var receitas []models.Receita
+	m := c.Param("mes")
+	a := c.Param("id")
+	m += "/"
+	m += a
+	database.DB.Where(&models.Receita{Data: m}).Find(&receitas)
+	if len(receitas) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"Not found": "Não há receitas nesse mês!"})
+		return
+	}
+	c.JSON(http.StatusOK, receitas)
+}

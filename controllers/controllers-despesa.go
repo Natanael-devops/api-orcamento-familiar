@@ -16,6 +16,7 @@ func ExibeTodasDespesas(c *gin.Context) {
 
 func CriaNovaDespesa(c *gin.Context) {
 	var despesa models.Despesa
+
 	if err := c.ShouldBindJSON(&despesa); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error()})
@@ -32,7 +33,7 @@ func CriaNovaDespesa(c *gin.Context) {
 		c.JSON(400, descricao)
 		return
 	}
-
+	despesa.Categoria = models.ValidaCategoria(&despesa)
 	database.DB.Create(&despesa)
 	c.JSON(http.StatusOK, despesa)
 }
@@ -77,4 +78,33 @@ func EditaDespesa(c *gin.Context) {
 
 	database.DB.Model(&despesa).UpdateColumns(despesa)
 	c.JSON(http.StatusOK, despesa)
+}
+
+func BuscaDespesaPorDescricao(c *gin.Context) {
+	var despesa []models.Despesa
+	descricao := c.Query("descricao")
+	database.DB.Where(&models.Despesa{Descricao: descricao}).Find(&despesa)
+
+	if len(despesa) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"Not found": "Despesa não encontrada"})
+		return
+	}
+
+	c.JSON(http.StatusOK, despesa)
+}
+
+func BuscaDespesaPorMes(c *gin.Context) {
+	var despesas []models.Despesa
+	m := c.Param("mes")
+	a := c.Param("id")
+	m += "/"
+	m += a
+	database.DB.Where(&models.Despesa{Data: m}).Find(&despesas)
+	if len(despesas) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"Not found": "Não há despesas nesse mês!"})
+		return
+	}
+	c.JSON(http.StatusOK, despesas)
 }
