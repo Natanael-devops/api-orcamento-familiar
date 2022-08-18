@@ -21,4 +21,5 @@ func ConectaComBancoDeDados() {
 	}
 	DB.AutoMigrate(&models.Receita{})
 	DB.AutoMigrate(&models.Despesa{})
+	DB.AutoMigrate(&models.Usuario{})
 }

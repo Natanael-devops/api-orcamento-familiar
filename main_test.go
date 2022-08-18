@@ -182,6 +182,7 @@ func TestEditaDespesa(t *testing.T) {
 	assert.Equal(t, float32(700.00), despesaMockAtualizada.Valor)
 }
 
+//próximas funções testam a busca mensal de receitas e despesas
 func TestBuscaReceitasPorMes(t *testing.T) {
 	database.ConectaComBancoDeDados()
 	CriaReceitaMock()
@@ -210,6 +211,7 @@ func TestBuscaDespesasPorMes(t *testing.T) {
 	assert.Equal(t, http.StatusOK, resposta.Code)
 }
 
+//próximas funções testam a busca por descrição de receitas e despesas
 func TestBuscaReceitasPorDescricao(t *testing.T) {
 	database.ConectaComBancoDeDados()
 	CriaReceitaMock()
@@ -239,6 +241,7 @@ func TestBuscaDespesasPorDescricao(t *testing.T) {
 	assert.Equal(t, http.StatusOK, resposta.Code)
 }
 
+//próxima função testa o resumo mensal
 func TestResumoMensal(t *testing.T) {
 	database.ConectaComBancoDeDados()
 	CriaReceitaMock()
