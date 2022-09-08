@@ -19,6 +19,8 @@ services:
     image: nat/meuapp  
     networks:
     - compose-bridge 
+    environment:
+       DATABASE_URL: postgres
     ports:
     - "8080:8080" 
     depends_on:
