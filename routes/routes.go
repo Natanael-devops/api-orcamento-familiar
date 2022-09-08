@@ -28,7 +28,7 @@ func CarregaRotas() {
 	//rotas resumo
 	r.GET("/resumo/:id/:mes", middleware.Auth(), controllers.DevolveResumoMensal)
 
-	//
+	//rotas primárias. Para gerar token de acesso: cadastrar novo usuário e dois logar.
 	r.POST("/", controllers.CriaNovoUsuario)
 	r.POST("/login", controllers.Login)
 	r.Run()
