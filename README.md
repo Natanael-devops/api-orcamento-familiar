@@ -49,7 +49,7 @@ Heroku <br>
 | /despesas | GET | Retorna todas as despesas | - | descricao (opcional) |
 | /despesas/{ano}/{mes} | GET | Retorna todas as despesas do mês | - | - |
 | /despesas/{id} | GET | Retorna despesas por id | - | - |
-| /despesas/{id} | PUT | Atualiza despesa por id |  <pre> {<br> "descricao": "Netflix",<br> "valor": 55.90,<br> "data": "09/2022",<br> "categoria": "lazer"<br>} </pre> O campo id_categoria é opciona (ver categorias correspondentes na tabela Categoria) | - |
+| /despesas/{id} | PUT | Atualiza despesa por id |  <pre> {<br> "descricao": "Netflix",<br> "valor": 55.90,<br> "data": "09/2022",<br> "categoria": "lazer"<br>} </pre> O campo categoria é opcional (ver categorias correspondentes na tabela Categoria) | - |
 | /despesas/{id} | DELETE | Remove despesa por id | - | - |
 
 ### Resumo
