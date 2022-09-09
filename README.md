@@ -70,9 +70,8 @@ Heroku <br>
 | Outras |
 
 ## Makefile 
-```
-Para fazer o build da aplicação usar o comando:
+Para fazer o build da aplicação usar o comando:<br>
 <code>make docker-image-build</code>
 
-Para rodar o projeto, utilizar após o build o comando:
+Para rodar o projeto, utilizar após o build o comando:<br>
 <code>make run</code>
