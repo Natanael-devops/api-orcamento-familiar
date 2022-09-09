@@ -14,11 +14,11 @@ Essa edição tem como objetivo construir uma api REST de controle financeiro.
 <b>3ª e 4ª semana</b> - Deploy e autenticação
 
 ## Tecnologias utilizadas
-Go(Golang)
-Docker
-Gin Gonic
-gORM
-Heroku
+Go(Golang)<br>
+Docker <br>
+Gin Gonic <br>
+gORM <br>
+Heroku <br>
 
 ## URL Base
  > https://api-orcamento-familiar.herokuapp.com/
