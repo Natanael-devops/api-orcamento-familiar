@@ -69,7 +69,7 @@ Heroku <br>
 | Imprevistos |
 | Outras |
 
-##Makefile 
+## Makefile 
 ```
 Para fazer o build da aplicação usar o comando:
 <code>make docker-image-build</code>
