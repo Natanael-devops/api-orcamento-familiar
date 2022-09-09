@@ -45,7 +45,7 @@ Heroku <br>
 ### Despesas
 | Rota | Método | Descrição | BODY PARAMS | QUERY PARAMS |
 | --- | --- | --- | --- | --- |
-| /despesas | POST | Cadastra uma despesa |  <pre> {<br> "descricao": "Netflix",<br> "valor": 55.90,<br> "data": "09/2022",<br> "categoria": "lazer"<br>} </pre> O campo categoria é opcional (ver ids correspondentes na tabela Categoria) | - |
+| /despesas | POST | Cadastra uma despesa |  <pre> {<br> "descricao": "Netflix",<br> "valor": 55.90,<br> "data": "09/2022",<br> "categoria": "lazer"<br>} </pre> O campo categoria é opcional (ver as opções na tabela Categoria) | - |
 | /despesas | GET | Retorna todas as despesas | - | descricao (opcional) |
 | /despesas/{ano}/{mes} | GET | Retorna todas as despesas do mês | - | - |
 | /despesas/{id} | GET | Retorna despesas por id | - | - |
